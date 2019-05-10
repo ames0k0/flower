@@ -1,69 +1,30 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# __author__ = 'kira@-築城院 真鍳
+# __author__ = 'kira@-天底 ガジ'
 
+from config import default as d
 from random import randint
-from sys import argv
+from pickle import load
 
 
-end = '\033[0m'
-blue = '\033[94m'
-purple = '\033[35m'
-vermelho = '\033[31m'
+def flower(simp):
+    '''Moving flower (*f_template) to the center
+    '''
+    result = d.none
 
-
-def app(simp, flag):
-    s = []
-    result = ""
-    start = 11
-    end = 30
-    size = 0
-    for each in simp.split('\n')[1:]:
+    for each in simp.split(d.new)[1:]:
         if each:
-            state = randint(start, end)
-            if flag:
-                s.append(state)
-            nline = f"{' ' * (30 - state)}{'.' * state}{each}\n"
-            if len(nline) > size:
-                size = len(nline)
-            result += nline
-        else:
-            result += each
+            s_n_d = randint(d.start, d.end)
+            each = f"{d.space * (d.end - s_n_d)}{d.dot * s_n_d}{each}{d.new}"
+        result += each
 
-    print(size)
-    return ("\n".join((simp.split('\n', maxsplit=1)[0], result)), s)
-
-
-flo = '''{0}
-...............................................
-......＊..＊......＊..＊＊.....................................
-......＊....＊....＊.{1}希信{0}..............................
-.......{1}仰愛{0}.＊{3}..........{0}＊........................................
-......＊＊{3}......{2}｢{3}...{0}＊＊....................
-.............{2}㉡{3}＊{2}㉠{0}..............................
-........＊＊{3}...{2}｣{3}......{0}＊＊...............................
-......＊{3}..........{0}＊.{1}幸運{0}.....................
-.........{1}望{0}.＊....＊....＊...............................
-......＊＊..＊..{1}＊{0}..＊..＊.............................................
-................{1}＊{0}..............................
-................{1}＊{0}..........................................
-......{2}____{0}_6_{2}__{0}..{1}＊{0}.......................................
-......{2}___{0}__6__{2}__{0}..{1}＊{0}.......................
-......{2}__{0}___6___{2}__{0}..{1}＊{0}................................
-....................{1}＊{0}...........................
-.....................{1}＊{0}....................................
-{2}kira@-天底.ガジ{0}.............『{2}言葉無限欺{0}』..........{3}
-'''
+    return d.new.join((simp.split(d.new, maxsplit=1)[0], result))
 
 
 if __name__ == "__main__":
-    while True:
-        flag = input(':')
-        flower, s = app(
-            flo, flag
-        )
-        print(flower.format(vermelho, purple, blue, end))
-        print(s)
-        if flag == 's':
-            break
+    with open('f_template.pkl', 'rb') as f:
+        print(flower(load(f)).format(
+            d.c_vermelho, d.c_purple, d.c_blue, d.c_end,
+            d.author, d.hope, d.feith, d.love, d.luck, d.lie
+        ))
